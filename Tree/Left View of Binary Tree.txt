@@ -1,0 +1,94 @@
+Given a Binary Tree, print Left view of it. Left view of a Binary Tree is set of nodes visible when tree is visited from Left side. The task is to complete the function leftView(), which accepts root of the tree as argument.
+
+Left view of following tree is 1 2 4 8.
+
+          1
+       /     \
+     2        3
+   /     \    /    \
+  4     5   6    7
+   \
+     8   
+
+Example 1:
+
+Input:
+   1
+ /  \
+3    2
+Output: 1 3
+
+Example 2:
+
+Input:
+
+Output: 10 20 40
+Your Task:
+You just have to complete the function leftView() that prints the left view. The newline is automatically appended by the driver code.
+Expected Time Complexity: O(N).
+Expected Auxiliary Space: O(Height of the Tree).
+
+Constraints:
+0 <= Number of nodes <= 100
+1 <= Data of a node <= 1000
+
+
+
+// Method 1
+class Tree
+{
+    //Function to return list containing elements of left view of binary tree.
+    ArrayList<Integer> list = new ArrayList<Integer>();
+    int max_level =0;
+    
+    void View(int level,Node root)
+    {
+        if(root==null)
+            return;
+        if(level>max_level)
+        {
+            list.add(root.data);
+            max_level = level;
+        }
+        
+        View(level+1,root.left);
+        View(level+1,root.right);
+        
+        return;
+    }
+    ArrayList<Integer> leftView(Node root)
+    {
+        View(1,root);
+        return list;
+    }
+}
+
+
+//Method 2
+
+class Tree
+{
+    //Function to return list containing elements of left view of binary tree.
+    ArrayList<Integer> leftView(Node root)
+    {
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        Queue<Node> q= new LinkedList<Node>();
+          q.add(root);
+    
+        while(!q.isEmpty())
+        {
+            int len = q.size();
+            for(int i=1;i<=len;i++)
+            {
+                Node temp = q.poll();
+                if(i==1)
+                    list.add(temp.data);
+                if(temp.left!=null)
+                    q.add(temp.left);
+                if(temp.right!=null)
+                    q.add(temp.right);
+            }
+        }
+        return list;
+    }
+}

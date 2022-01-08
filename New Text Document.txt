@@ -1,0 +1,45 @@
+1.  map.computeIfAbsent(B[j], x -> new ArrayList()).add(j)
+2.  set(Arrays.toString(Arrays.copyOfRange(A, i, i+length)));
+3.  map.put(i,map.getOrDefault(i,0)+1);
+4.  new PriorityQueue<>((a,b)->(b.getValue()-a.getValue()));
+5.  Collections.sort(list,(nums1,nums2)->Math.abs(nums1-x)-Math.abs(nums2-x));
+
+
+
+
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+/*
+ * Complete the function below.
+ */
+
+    static int findLIS(int[] s) 
+    {
+        int dp[] = new int[s.length];
+        
+        int maxi = 1 ; 
+        
+        for(int i=1;i<s.length;i++)
+        {
+            for(int j=0;j<i;j++)
+            {
+                if(s[i]>s[j])
+                {
+                    dp[i] =  Math.max(dp[i], dp[j]+1);
+                }
+                
+                maxi = Math.max(dp[i],maxi);
+            }
+        }
+        
+        return maxi+1;
+
+
+    }
+    public static void main(String[] args) {

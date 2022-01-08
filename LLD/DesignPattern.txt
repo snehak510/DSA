@@ -1,0 +1,12 @@
+Design Patterns:
+are reusables soltions to the problem that we encounter
+solve object generation and integration 
+3 Types :
+1. Creational : object creation and initialisation. ex - singleton, factory, abstract facory, builder and prototype
+2. Structural : class n object ccomposition. focuses on decoupling interface & implementation of classes. Ex - adapter, bridges
+3. behavioural : communication between the classes n objects. Ex- chain of responsibility , command, interpreter etc
+
+Singleton Patterns:
+ensure only one object of a class is initiated.
+adv
+1. 

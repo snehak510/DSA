@@ -1,0 +1,113 @@
+Given an array of strings strs, group the anagrams together. You can return the answer in any order.
+
+An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+ 
+
+Example 1:
+
+Input: strs = ["eat","tea","tan","ate","nat","bat"]
+Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+Example 2:
+
+Input: strs = [""]
+Output: [[""]]
+Example 3:
+
+Input: strs = ["a"]
+Output: [["a"]]
+ 
+
+Constraints:
+
+1 <= strs.length <= 104
+0 <= strs[i].length <= 100
+strs[i] consists of lower-case English letters.
+
+
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String,List<String>> map = new HashMap();
+        
+        for(String s:strs)
+        {
+            char[] temp = s.toCharArray();
+            Arrays.sort(temp);
+            String key = String.valueOf(temp);
+            
+            if(!map.containsKey(key))
+                map.put(key,new ArrayList<>());
+            
+            map.get(key).add(s);
+        }
+        
+        List<List<String>> list = new ArrayList();
+        for(String m:map.keySet())
+        {
+            list.add(map.get(m));
+        }
+        return list;
+    }
+}
+
+
+
+
+
+// Method 2
+public List<List<String>> groupAnagramsCategorizeByFrequency(String[] strs) {
+
+    // Check for empty inputs
+    if (strs == null || strs.length == 0)
+      return new ArrayList<>();
+
+    Map<String, List<String>> frequencyStringsMap = new HashMap<>();
+    for (String str : strs) {
+
+      String frequencyString = getFrequencyString(str);
+
+      // If the frequency string is present, add the string to the list
+      if (frequencyStringsMap.containsKey(frequencyString)) {
+        frequencyStringsMap.get(frequencyString).add(str);
+      }
+      else {
+        // else create a new list
+        List<String> strList = new ArrayList<>();
+        strList.add(str);
+        frequencyStringsMap.put(frequencyString, strList);
+      }
+    }
+
+    return new ArrayList<>(frequencyStringsMap.values());
+  }
+
+  private String getFrequencyString(String str) {
+
+    // Frequency buckets
+    int[] freq = new int[26];
+
+    // Iterate over each character
+    for (char c : str.toCharArray()) {
+      freq++;
+    }
+
+    // Start creating the frequency string
+    StringBuilder frequencyString = new StringBuilder("");
+    char c = 'a';
+    for (int i : freq) {
+      frequencyString.append(c);
+      frequencyString.append(i);
+      c++;
+    }
+
+    return frequencyString.toString();
+  }
+
+
+frequency string
+aab = a2b1
+aba = a2b1
+baa = a2b1
+abbccc = a1b2c3
+abb = a1b2
+bcbcca = a1b2c3

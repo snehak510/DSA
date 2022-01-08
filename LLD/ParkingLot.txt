@@ -1,0 +1,164 @@
+https://github.com/Naman-Bhalla/splitwise_class_27102021/tree/master/src/main/java/dev/naman/splitwise_class
+https://github.com/Naman-Bhalla/masterclass_parkingLot
+https://docs.google.com/document/d/1dxoS9rh8dgKYD3YxaUO4nlEDVGVaYem_vDPB56AK5cY/preview?pru=AAABfT1UvZk*Vftg8K4P6tw9qY5ZjreywQ
+https://github.com/AgarwalPragy/MachineCodingParkingLot/tree/master/src/com/justpark/models/accounts
+
+
+1. Requirement Analysis
+2. Design Phase
+
+  1  Class/Entities in the System
+  2  Schema Design 
+  3. Activity Diagram
+  2. Db Details - tables, relationships, columns
+      Schema Design - Interaction/behaviour in the Sysytem
+      Use Case Diagram also known as Activity Diagram
+        used to find the different method in my classes
+
+
+Requirement Analysis
+1. What is Parking lot
+2. duration of Parking
+3. no. of passing
+4. each fllor can spots
+5. how will we chare the people - type of vehicle, time of parking
+6. where is a gate
+7. Display board
+8. more than one vehicle
+9. multiple entry n exits
+10. overtime charges
+11. different type of  vehicles allowed - large , medium , small
+12. how to pay -- pay at the gate, pay online before u go out
+13. any specific  place to parkin
+14. possiblity to expand in future
+15. wrong parking
+16. same gate entry or exit - synchronisation
+
+class Diagram.
+1. Visualise the system 
+2. Noun
+
+1. Parking lot Class
+    1. id
+    2. list of floor
+    3. List of Entry gates
+    4. List of Exit gate
+    5. Name 
+    6. Adress
+
+2. Parking Floors
+    1. List of Parking spots
+    2. Floor Number
+    3. id
+
+3. Parking spots
+    1. Type of vehicles
+    2. id
+    3. isEmpty
+
+4. vehicle
+    1. Type of vehicle - s/M/L
+    2. Reg num of Vehicle
+
+5. Ticket
+    1. Vehicle 
+    2. Entry time
+    3. spot
+    4. id
+    5. Exit time
+
+6. Entry gate
+    1. gate id
+    2. Display board
+    3. isOpen
+    4. TicketGiven
+
+7.  Exit gate
+    1. Ticket collected
+
+
+Schema Design (ER- Diagram)
+1. Different tables in the system + how are diff tables related to each other
+
+How to create ER Diagram
+Step1. - Each class = 1 tables
+        Parking ost, parking floor, parkin spots, 
+        Each field will translate to column in a tables
+
+        List of floor is a relationship btw parking lot an parking floor
+        Types of relationship 
+        1-1
+        1-many
+        many-1
+        many-many
+
+        Parking lot  Patking floor
+            1           many
+            1           1
+            1 :   m
+
+        tICKET ENtryGate
+            1       1
+            m       1
+            M : 1
+
+        Floor
+Steps 2 : find relationships for all tables
+    1-1 relationship can be combined by havin on extra column in either of them
+    Spot-ticket
+    1-M/M-1 one column in the M side table
+    parking lot - floor
+    M : m
+    separate table for mapping
+    lot - floor 
+    extra table -- lot floor mapping
+    floor id , lot id
+
+
+    Scheme Design------------------------------
+
+    Finding the methods - By UML (Activity diagram)
+    people/Entity that are going to interactt with the system
+    Ex - Vehicles Owners, Admin, Display board
+    get ticket, park car, make payment, exit
+    Add floor, Add a spot, remove, Mark unavailable, change price strategy
+    get availability
+
+
+----------------------------
+Coding
+
+- divide into different packages/ different folders
+start with coding different Entities
+
+Step1 : create differnt folders that yo u are going to used
+- models - all the entities of the system
+        - Parking lot, parkin floor, parking spot
+- services - GenerateTicketsServices : generate a ticket 
+            - and assign a spot
+            - Payment Services
+
+- repositories: Store Data: In memeroy storage
+classes that havr func that interact with storage
+- controllers: are the clases via which external clients will interact with the system
+- daos : Data Access Objects : when you are storin data u might want to store in a diff way
+- dtos : Data Transfer Objects
+
+
+User
+-Name
+-email
+-password
+-id
+-isGoodUser
+
+DTos are models ina format tht can be tranferrred to public
+
+exposed-  controllers
+we r using - service
+
+
+Head First design pattern
+refactoring guru online
+
+SRP -> every code unit: file, class, method should hav exactly one responsibility

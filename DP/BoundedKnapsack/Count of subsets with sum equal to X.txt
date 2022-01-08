@@ -1,0 +1,45 @@
+Given an array arr[] of length N and an integer X, the task is to find the number of subsets with a sum equal to X.
+
+Examples: 
+
+Input: arr[] = {1, 2, 3, 3}, X = 6 
+Output: 3 
+All the possible subsets are {1, 2, 3}, 
+{1, 2, 3} and {3, 3}
+ 
+
+Input: arr[] = {1, 1, 1, 1}, X = 1 
+Output: 4 
+
+
+/*package whatever //do not write package name here */
+
+import java.io.*;
+
+class GFG {
+	public static void main (String[] args) {
+	    int arr[] = {1, 1, 1, 1};
+	    int n = 1;
+	        
+	   int[][] dp = new int[n+1][arr.length+1];
+	   
+	   for(int i=0;i<=n;i++)
+	        dp[i][0]=0;
+	   for(int i=0;i<=arr.length;i++)
+	        dp[0][i]=1;
+	       
+	   for(int i=1;i<=n;i++)
+	   {
+	       for(int j=1;j<=arr.length;j++)
+	       {
+	           if(i>=arr[j-1])
+	               dp[i][j] = dp[i][j-1] + dp[i-arr[j-1]][j-1];
+	           else
+	              dp[i][j] = dp[i][j-1];
+	       }
+	   }
+	   
+	   System.out.println(dp[n][arr.length]);
+	    
+	}
+}

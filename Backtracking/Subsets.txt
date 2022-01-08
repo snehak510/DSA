@@ -1,0 +1,72 @@
+Given an integer array nums of unique elements, return all possible subsets (the power set).
+
+The solution set must not contain duplicate subsets. Return the solution in any order.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3]
+Output: [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+Example 2:
+
+Input: nums = [0]
+Output: [[],[0]]
+ 
+
+Constraints:
+
+1 <= nums.length <= 10
+-10 <= nums[i] <= 10
+All the numbers of nums are unique.
+
+
+
+
+class Solution {
+    
+    List<List<Integer>> list = new ArrayList();
+    
+    public void dfs(ArrayList<Integer> l, int[] nums,int start)
+    {
+        if(l.size() <= nums.length & !list.contains(l))
+        {
+            list.add(new ArrayList(l));
+            return;
+         }
+        
+        for(int i=start;i<nums.length;i++)
+        {
+            if(l.contains(nums[i])) continue;
+            l.add(nums[i]);
+            dfs(l,nums,i+1);
+            l.remove(l.size()-1);
+        }
+    }
+        
+        
+    
+    public List<List<Integer>> subsets(int[] nums) {
+        for(int i=0;i<=nums.length;i++)
+            dfs(new ArrayList(), nums,0);
+        return list;
+    }
+}
+
+
+///Method 2
+public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> res = new ArrayList();
+        solve(nums, new ArrayList(), res, 0);
+        return res;
+    }
+    
+    void solve(int[] nums, List<Integer> temp, List<List<Integer>> res, int start) {
+        res.add(new ArrayList(temp));
+        
+        for(int i = start; i < nums.length; i++) {
+            temp.add(nums[i]);
+            solve(nums, temp, res, i + 1);
+            temp.remove(temp.size() - 1);
+        }
+    }

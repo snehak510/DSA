@@ -1,0 +1,67 @@
+Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+An input string is valid if:
+
+Open brackets must be closed by the same type of brackets.
+Open brackets must be closed in the correct order.
+ 
+
+Example 1:
+
+Input: s = "()"
+Output: true
+Example 2:
+
+Input: s = "()[]{}"
+Output: true
+Example 3:
+
+Input: s = "(]"
+Output: false
+Example 4:
+
+Input: s = "([)]"
+Output: false
+Example 5:
+
+Input: s = "{[]}"
+Output: true
+ 
+
+Constraints:
+
+1 <= s.length <= 104
+s consists of parentheses only '()[]{}'.
+
+
+
+
+class Solution {
+    public boolean isValid(String s) {
+        HashMap<Character, Character> map = new HashMap<Character, Character>();
+        map.put(')','(');
+        map.put(']','[');
+        map.put('}','{');
+        
+        Stack<Character> stack = new Stack<Character>();
+        
+        for(Character c:s.toCharArray())
+        {
+            if(map.containsKey(c))
+            {
+                char topElement = stack.isEmpty()? '#':stack.peek();
+                if(topElement==map.get(c))
+                    stack.pop();
+                else
+                    return false;
+            }
+            else
+            {
+                stack.push(c);
+            }
+        }
+        if(stack.isEmpty())
+            return true;
+        return false;
+    }
+}

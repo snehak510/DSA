@@ -1,0 +1,347 @@
+For DFS recursion, DFS Iterative and BFS below are the common approaches
+
+Create the adjacency List from given edge list
+Create the boolean visited array -> boolean[] visited
+Call DFS/BFS with using the 2 created structures.
+UnionFind doesnt need the steps 1 and 2 as it internally manages it own structure.
+It is more efficient because it uses compress path algorithm to optimise search for parent for a given node
+
+Approach 1:DFS using Recursion
+
+class Solution1 {
+    //Stores adjList that represents a graph. 1 src to multiple nodes representation
+    private List<List<Integer>> graph;
+    //the result
+    private boolean doesValidPathExist;
+    //visited array to track whether a node has been previously visited
+    private boolean[] visited;
+
+    /**
+     * builds an adjList from the edgeList
+     *
+     * @param edges
+     * @param n
+     */
+    public void buildAjdList(int[][] edges, int n) {
+        //initialise each node's list of target vertices
+        graph = new ArrayList<>();
+        for (int i = 0; i < n; i++)
+            graph.add(new ArrayList<>());
+        //iterate over the edge list and convert to adjList
+        for (int i = 0; i < edges.length; i++) {
+            //add the neighbours for the src edge i
+            graph.get(edges[i][0]).add(edges[i][1]);
+            graph.get(edges[i][1]).add(edges[i][0]);
+
+        }
+    }
+
+    /**
+     * Wrapper method which calls the dfs to get the valid path from src to dest
+     *
+     * @param n
+     * @param edges
+     * @param start
+     * @param end
+     * @return
+     */
+    public boolean validPath(int n, int[][] edges, int start, int end) {
+        visited = new boolean[n];
+        buildAjdList(edges, n);
+        dfs(start, end);
+        return doesValidPathExist;
+    }
+
+    /**
+     * DFS approach using Recursion
+     *
+     * @param src
+     * @param dest
+     */
+    public void dfs(int src, int dest) {
+        //mark the current node, that is visited, as true;
+        visited[src] = true;
+        //if the destination is arrived mark result as true and return
+        if (src == dest) {
+            doesValidPathExist = true;
+            return;
+        }
+        //get the neighbours of current node
+        List<Integer> neighbours = graph.get(src);
+        //iterate over the list of neighbours of current node
+        for (int i = 0; i < neighbours.size(); i++) {
+            //if the neighbour is not visited then only call dfs on the neighbour
+            if (!visited[neighbours.get(i)])
+                dfs(neighbours.get(i), dest);
+        }
+    }
+}
+
+Approach 2:DFS Iterative using Stack
+
+class Solution2 {
+    //Stores adjList that represents a graph. 1 src to multiple nodes representation
+    private List<List<Integer>> graph;
+    //the result
+    private boolean doesValidPathExist;
+    //visited array to track whether a node has been previously visited
+    private boolean[] visited;
+
+    /**
+     * builds an adjList from the edgeList
+     *
+     * @param edges
+     * @param n
+     */
+    public void buildAjdList(int[][] edges, int n) {
+        //initialise each node's list of target vertices
+        graph = new ArrayList<>();
+        for (int i = 0; i < n; i++)
+            graph.add(new ArrayList<>());
+        //iterate over the edge list and convert to adjList
+        for (int i = 0; i < edges.length; i++) {
+            //add the neighbours for the src edge i
+            graph.get(edges[i][0]).add(edges[i][1]);
+            graph.get(edges[i][1]).add(edges[i][0]);
+
+        }
+    }
+
+    /**
+     * Wrapper method which calls the dfs to get the valid path from src to dest
+     *
+     * @param n
+     * @param edges
+     * @param start
+     * @param end
+     * @return
+     */
+    public boolean validPath(int n, int[][] edges, int start, int end) {
+        visited = new boolean[n];
+        buildAjdList(edges, n); 
+        dfs2(start, end);
+        return doesValidPathExist;
+    }
+
+
+    /**
+     * DFS approach using stack instead of recursion
+     *
+     * @param src
+     * @param dest
+     * @return
+     */
+    public void dfs2(int src, int dest) {
+        //define a stack
+        Stack<Integer> stack = new Stack<>();
+        //add 1st element to stack
+        stack.add(src);
+        //iterate till stack is not empty
+        while (!stack.isEmpty()) {
+            //pop the top element
+            int srcNode = stack.pop();
+            //mark is as visited
+            //        visited[srcNode] = true;
+            //if srcNode is same as destination then return true
+            if (srcNode == dest) {
+                doesValidPathExist = true;
+                return;
+            }
+            //for all the neighbouring nodes of the srcNode
+            for (int i = 0; i < graph.get(srcNode).size(); i++) {
+                //if the neighbour is not visited then add it to the stack
+                //        if (!visited[graph.get(srcNode).get(i)])
+                stack.add(graph.get(srcNode).get(i));
+            }
+        }
+    }
+}
+Approach 3:BFS Iterative using Queue
+
+class Solution3 {
+    //Stores adjList that represents a graph. 1 src to multiple nodes representation
+    private List<List<Integer>> graph;
+    //the result
+    private boolean doesValidPathExist;
+    //visited array to track whether a node has been previously visited
+    private boolean[] visited;
+
+    /**
+     * builds an adjList from the edgeList
+     *
+     * @param edges
+     * @param n
+     */
+    public void buildAjdList(int[][] edges, int n) {
+        //initialise each node's list of target vertices
+        graph = new ArrayList<>();
+        for (int i = 0; i < n; i++)
+            graph.add(new ArrayList<>());
+        //iterate over the edge list and convert to adjList
+        for (int i = 0; i < edges.length; i++) {
+            //add the neighbours for the src edge i
+            graph.get(edges[i][0]).add(edges[i][1]);
+            graph.get(edges[i][1]).add(edges[i][0]);
+
+        }
+    }
+
+    /**
+     * Wrapper method which calls the dfs to get the valid path from src to dest
+     *
+     * @param n
+     * @param edges
+     * @param start
+     * @param end
+     * @return
+     */
+    public boolean validPath(int n, int[][] edges, int start, int end) {
+        visited = new boolean[n];
+        buildAjdList(edges, n);
+        bfs(start, end);
+        return doesValidPathExist;
+    }
+
+    /**
+     * BFS approach using queue
+     *
+     * @param src
+     * @param dest
+     * @return
+     */
+    public boolean bfs(int src, int dest) {
+        //define a queue
+        Queue<Integer> queue = new LinkedList<>();
+        //add 1st element to queue
+        queue.add(src);
+        //iterate till queue is not empty
+        while (!queue.isEmpty()) {
+            //remove the element
+            int srcNode = queue.remove();
+            //mark is as visited
+            visited[srcNode] = true;
+            //if srcNode is same as destination then return true
+            if (srcNode == dest) {
+                doesValidPathExist = true;
+                break;
+            }
+            //for all the neighbouring nodes of the srcNode
+            for (int i = 0; i < graph.get(srcNode).size(); i++) {
+                //if the neighbour is not visited then add it to the queue
+                if (!visited[graph.get(srcNode).get(i)])
+                    queue.add(graph.get(srcNode).get(i));
+            }
+        }
+        return doesValidPathExist;
+    }
+}
+
+Approach 4:Using Union Find
+
+class Solution4 {
+    public boolean validPath(int n, int[][] edges, int start, int end) {
+        return computeViaUnionFind(start, end, n, edges); 
+    }
+
+    public boolean computeViaUnionFind(int src, int dest, int n, int[][] edges) {
+        com.programming.graph.DisjointSet uf = new com.programming.graph.DisjointSet(n);
+        for (int i = 0; i < edges.length; i++)
+            uf.unify(edges[i][0], edges[i][1]);
+        return uf.find(src) == uf.find(dest);
+    }
+}
+
+/**
+ * generic implementation of Union Find along with path compress for faster calculation
+ */
+
+class Union_Find {
+    //size of each component
+    int[] nodeSize;
+    //The actual child to parent mapping structure. If ids[i]==i . If we encounter self loop then it is the parent
+    int[] ids;
+
+    /**
+     * Constructor which takes the size of total nodes.
+     * This will preInitialize all variables to be used in UnionFind
+     *
+     * @param size
+     */
+    public Union_Find(int size) {
+        size = size;
+        nodeSize = new int[size];
+        ids = new int[size];
+        for (int i = 0; i < size; i++) {
+            //Every node has a self loop means it is the parent
+            ids[i] = i;
+            //since each node is an individual component hence size is 1;
+            nodeSize[i] = 1;
+        }
+    }
+
+    /**
+     * It finds the root or to which component an given element belongs to.
+     * It takes amortized constant time.
+     *
+     * @param element
+     * @return
+     */
+    public int find(int element) {
+        int parent = element;
+        //until we find the self loop keep traversing until we get it
+        while (ids[parent] != parent) {
+            parent = ids[parent];
+        }
+        //compress path called to further optimize the solution
+        compressPath(element, parent);
+        return parent;
+    }
+
+    /**
+     * This method compresses path for a given component's element
+     *
+     * @param element
+     */
+    private void compressPath(int element, int root) {
+        // map each element's parent to the root
+        while (element != root) {
+            int parent = ids[element];
+            ids[element] = root;
+            element = parent;
+        }
+    }
+
+    /**
+     * merges 2 components
+     *
+     * @param element1
+     * @param element2
+     * @return
+     */
+    public int unify(int element1, int element2) {
+        //if both the element are part of same component then no unification required.
+        if (find(element1) == find(element2))
+            return find(element1);
+        //get the roots of both the elements
+        int root1 = find(element1);
+        int root2 = find(element2);
+        int root = -1;
+        if (nodeSize[root1] < nodeSize[root2])// make root1's parent as root 2 as the size is greater
+            root = computeAndResize(root1, root2);
+        else // make root2's parent as root1 as the size is greater
+            root = computeAndResize(root2, root1);
+        return root;
+    }
+
+    public int computeAndResize(int root1, int root2) {
+        int root;
+        ids[root1] = root2;
+        //increase the component size of root2. Add component size of root1 to it.
+        nodeSize[root2] += nodeSize[root1];
+        // make the component size of root1 to zero as it is not more the root node.
+        nodeSize[root1] = 0;
+        //this is the root to be returned
+        root = root2;
+        return root;
+    }
+}

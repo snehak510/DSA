@@ -1,0 +1,17 @@
+Rate Limiting
+1. User
+2. Concurrent
+3. Location/IP
+4. Server
+
+Alorithms
+Token Bucket- request /user/min
+Leaky Bucket FIFO
+Fixed window counter - Request/min keyValue
+Sliding Logs
+Sliding window counter
+
+Inconsistency - sticky Session
+Race condition - locks
+
+Circuit breaking

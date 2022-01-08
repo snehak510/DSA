@@ -1,0 +1,323 @@
+Message Queues
+	Sync vs Async communication
+	parties conncted over a dedicated line --> no wait no lag - sync - phone calls
+	respond immediately
+	wait and lag - Async - messages, emails
+	 
+	Online store - invoice
+	producer consumer Model
+	producer push the request 
+	cosumer process the request
+	Ex - AWS SQS, rabbit MQ, kafka
+	
+	Advantages
+	can handle lot of requests - decouple the load
+	can be scaled - increase the consumer
+	data will not be lost if consumer stops working
+	
+	ordering & consumption
+	order - messages
+	ordered and unordered queue (FIFO)
+	
+	ordered -
+	Disadvantages
+	block if any process is not processed
+	
+	unordered - 
+	failed process is pushed to retry or failed queue - SQS - dead letter queue
+	
+	producer : consumer
+	1:1
+	
+	 
+	factors of message queues
+	ordering - unordered MQ (ex text message)
+				unordered MQ(invoice generation request)
+				
+	Cosumption - one to one (producer consumer model)
+				 one tot many ( publisher subscriber model)
+				
+	producer & consumer model - 1:1
+	ccomponet that sends message - producer
+	that consumes and take some action - consumer
+	channel through which its doe - queue
+	implementation & failure scenarios
+	ordered MQ with one consumer
+	ordered MQ with multiple consumer
+	Unordered MQ with one consumer
+	Unordered MQ with multiple consumer
+	
+	
+Pub Sub Messaging
+	publisher --> Input channel /message broker  output channel --> subscriber
+												 --> subscriber
+												 --> subscriber
+										         --> subscriber
+										 
+	
+	Message broker
+	logic to transform the data
+	divide the data into topics
+	
+	ex - e commerce
+	
+	publisher --> input channel --> broker --> op channel --> sms
+															  emails
+															  logs
+															  order processor
+															  
+															
+	publlsher --> create and send messages to a topic
+	subscriber --> create a subscriptio topic and receive message from it
+	
+	Advantages
+	decoupling
+	scalability
+	
+	Message ordering - no order guanrantee]
+	message consumption
+	porion messages - handling malformed messages
+	duplicate messages - money deducted twice
+	
+	Pub sub use cases
+	1. Async workflow
+	2. Decoupling
+	3. Load balancing
+	4. Deferred processing
+	5. Data streaming
+	
+Performance Metrics
+	Throughput
+		work done/time
+		increase capacity 
+		API calls served per unit time
+		
+	Bandwidth
+		resources bandwidth throughpur
+	latency
+	Response time
+		
+Performance Metrics of components ins a software
+	Application
+		API response time
+		Throughput of APIs
+		Error occurances
+		Bugs/Defects in the code
+	DBs
+		time taken for queries
+		replicas/snapshot
+		
+	Caches
+		latency of writing to chache
+		number of cache evication and invalidatio
+		memory of cache instances
+	Workers
+		time taken for job completion
+		resources used in the process
+	Message Queues
+		rate of productio and consumption
+		fraction of stale or unprocessed messages
+		no of consumers affect bandwidth and through put
+	Server instances
+		Memory/RAM
+		CPU
+		
+		
+Caches
+	client side - ex- browser cache
+	server side cache ex - reverse proxy
+	
+	Data Invalidation
+	expiry time -TTL - time to live
+	update when new value comes
+	
+	Cache Eviction
+	FIFA
+	LRU
+	LFU
+	
+	Read through Pattern
+	client <--> server/App <--> Database
+			      ||
+				 Cache
+	
+	Read through Pattern
+	client <--> server/App <--> Cache <-- Database
+	
+	Write through Pattern
+	client <--> server/App <--> Cache --> Database
+	
+	Write back pattern
+	client <--> server/App <--> Cache --> Database (cache writes in bulk to db)
+	
+	where to keep cache
+	client , forward proxy , rev proxy, app
+	
+	
+REST API
+	
+	
+	
+Fault amd Failure
+	bakery oven broke
+	backup
+	anticipate fault and failures
+	Ex - network fault, timeout, machine crashes, hardware issues, memory out of memmory, hih CPU, human error software bugs
+	
+	undertand faults
+	tolerate faul
+	make fault safe
+	
+	Sol :
+	Replication
+	bug - friendly message - should be handled- will b back soon
+	
+	types of faults
+	Transient - samll time , hard to detect, no large impact
+	permanent - easy to locate , untill fixed
+	
+	multiple engines - fault tolerant
+	safety jackets , emergency exit - fail safe
+	
+Scaling
+	Restaurat table
+	Vertical Scaling
+		capacity of existing resource 
+		increase the power high memory high CPU
+		
+	Horizontal Scaling
+		increase the number of resource
+		multiple instances
+		
+    handled increased load
+	shouldnot be complex
+	performance should not take a hit/increase
+	
+	How to build scalable system
+		cost and complexity 
+		future enhancement
+		less complex code and easy to deploy
+		can handle multiple request in future
+		performance shoudnot impact
+	
+	
+Database Replication
+	Master/slave db
+	
+	why replication:
+	to tolerrate fault
+	reduce network latency
+	to increase performance and increase scalability - alow reads
+	
+	Replication lag:
+		time taken to copy the data from master to slave
+	Replica Synchronous:
+		Consistency model/Consistency Algorithmic
+		Read after write model
+		Advantage
+		Replication zero
+		consistence
+		
+		Disadvantages:
+		performance
+		if any replica fails to acknowledge
+		
+	Asynchronous replication
+		will not wait for acknowledge
+		Advantages
+		faster
+		disadvantages
+		can be inconsistence
+		
+	Semi Synchronous Replication
+		wait for only one of the db to acknowledge
+		
+	Replica vs Snapshot
+		snapshot : state of database
+		
+	
+CAP Theorem
+	consistency
+	Availability
+	Parition
+
+
+1. Sharding 
+   Physical - dividing the data into different system/servers
+   logical - dividing the data and keeping in same system/servers
+   
+   Algorithmic- the partition to whch the data should go lies at the app/client
+   Dynamic - the logic is written in diff module. App --> module -->table
+   
+   Advanatages 
+   more data can be stored
+   searching can be simplified. need to search only one shard. better performabce, query optimisation, reduce latency
+   diff partition based on location
+   single point of failure. serves 75% of ppl
+   
+   Diadvantages
+   key needs to be choosen carefully
+   one partition can hav more or less data
+   cant combine back the data
+   if query needs join..then it needs to go through all shards and then oin table to fetch op
+   
+   
+ 
+Key Based Sharding - hashing - Algorithmic sharding
+	how to know which shard to go for update
+	pick a column based on whih partition happens
+	hashing function is used to achieve Key based sharding
+	choose a key which is constant. ocmbination of columns can be chosen
+	
+	Advantages
+	Data is evenly distributed.
+	
+	Disadvantages
+	when data increases or decreases - hashinh func changes and complete data needs to be moved.
+	to overcome - consisent hashing.
+	
+Range based Sharding
+	divide the data on monthly basis for analytic
+	Advantages
+	same schema
+	add or remove more machine and no hashing 
+	for range base queries
+	
+	Disadvantages
+	not evenly data storage - hotspots - having lot of data - dbs can failure
+	
+	Usages
+	username with range a-m , n -z
+	
+Directory Based Sharding - Dynamic sharding
+	stored in look up tables - other than application
+	based on zone/country
+	
+	Advatangtes
+	add or remove zones
+	preknowledge less possibility of hotspots
+	
+	Disadvantages
+	increase latency due to look up table
+	single point of failure - lookup table
+	
+Hashing
+	collision
+Consistent hashing
+	put the values on circle
+	generate the hash for keys and server
+	map them on circle
+	server n keys share the same op range n share same circle
+	values sit on the server it is close to clockwise
+	
+	Disadvantages
+	overload on one server upon removing a server- uneven distribution
+	Sol : create replica of server
+	
+	
+Interview Questions
+Functional and non Function req
+	
+	
+	
+

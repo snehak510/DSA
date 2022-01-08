@@ -1,0 +1,96 @@
+https://practice.geeksforgeeks.org/problems/minimum-sum-partition3317/1#
+
+Given an integer array arr of size N, the task is to divide it into two sets S1 and S2 such that the absolute difference between their sums is minimum and find the minimum difference
+
+
+Example 1:
+
+Input: N = 4, arr[] = {1, 6, 11, 5} 
+Output: 1
+Explanation: 
+Subset1 = {1, 5, 6}, sum of Subset1 = 12 
+Subset2 = {11}, sum of Subset2 = 11   
+Example 2:
+Input: N = 2, arr[] = {1, 4}
+Output: 3
+Explanation: 
+Subset1 = {1}, sum of Subset1 = 1
+Subset2 = {4}, sum of Subset2 = 4
+
+Your Task:  
+You don't need to read input or print anything. Complete the function minDifference() which takes N and array arr as input parameters and returns the integer value
+
+
+Expected Time Complexity: O(N*|sum of array elements|)
+Expected Auxiliary Space: O(N*|sum of array elements|)
+
+
+Constraints:
+1 ≤ N*|sum of array elements| ≤ 106
+// { Driver Code Starts
+//Initial Template for Java
+
+
+
+import java.io.*;
+import java.util.*;
+class GfG
+{
+    public static void main(String args[])
+        {
+            Scanner sc = new Scanner(System.in);
+            int t = sc.nextInt();
+            while(t-->0)
+                {
+                    int n = sc.nextInt();
+                    int A[] = new int[n];
+                    for(int i = 0;i<n;i++)
+                        A[i] = sc.nextInt();
+                    Solution ob = new Solution();
+                    System.out.println(ob.minDifference(A,n));
+                }
+        }
+}    // } Driver Code Ends
+
+
+//User function Template for Java
+
+class Solution
+{
+
+	public int minDifference(int arr[], int n) 
+	{ 
+	    int sum =0;
+	    for(int i=0;i<arr.length;i++)
+	        sum+=arr[i];
+	    
+	    boolean[][] dp = new boolean[sum+1][arr.length+1];
+	    
+	    for(int i=0;i<=sum;i++)
+	        dp[i][0]=false;
+	   for(int i=0;i<=arr.length;i++)
+	        dp[0][i]=true;
+	        
+	   for(int i=1;i<=sum;i++)
+	   {
+	       for(int j=1;j<=arr.length;j++)
+	       {
+	           dp[i][j]=dp[i][j-1];
+	           if(i>=arr[j-1])
+	            dp[i][j] = dp[i][j-1] || dp[i-arr[j-1]][j-1];
+	       }
+	   }
+	   int diff = Integer.MAX_VALUE;
+	   for(int i=sum/2;i>=0;i--)
+	   {
+	      // System.out.println(i);
+	       if(dp[i][arr.length])
+	       {
+	          diff = sum-2*i;
+	          break;
+	       }
+	   }
+	   return diff;
+	} 
+}
+

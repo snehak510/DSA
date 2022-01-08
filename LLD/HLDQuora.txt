@@ -1,0 +1,33 @@
+Design Quora
+
+1. Features
+2. Estimate
+3. Trade off
+4. Design
+
+Feature
+	create/post Question 
+	answer questions
+	Comment on the questions/answers
+	upvotes downvote
+	Multi media 
+	Search - Questions , Answers, users,topics
+	follow topics/questions/users
+	Topics
+	newsfeed -> Revelance --> connection strength
+	Recency
+	Popular
+	Authentication
+	Ad
+	
+Estimatng the scale
+	Anticipate number of users - 700m 
+	daily active users
+	DAU/MAU - 10%
+	post one day - 10M
+	ans/day - 50M
+	
+	
+	
+	
+	

@@ -1,0 +1,12 @@
+1. requirements      Machine
+2. class Diagram , use case diagram and schema design
+3. code
+
+Modulat/extensible/design
+
+classes on LLd
+OOP
+design principle (SOLID)
+design patterns - creational, structural, behaviourl
+splitwise 
+scema design 
