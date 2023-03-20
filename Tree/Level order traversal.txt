@@ -1,4 +1,4 @@
-Given a binary tree, find its level order traversal.
+sGiven a binary tree, find its level order traversal.
 Level order traversal of a tree is breadth-first traversal for the tree.
 
 
