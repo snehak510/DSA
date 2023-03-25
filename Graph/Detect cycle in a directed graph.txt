@@ -66,3 +66,47 @@ class Solution {
     }
 }
 /*6 5
+
+
+//Method 2
+
+
+/*Complete the function below*/
+
+class Solution {
+    
+    public boolean dfs(int i,boolean[] visited,boolean[] visPath, ArrayList<ArrayList<Integer>> adj)
+    {
+        visited[i] = true;
+        visPath[i] = true;
+        
+        for(int n:adj.get(i))
+        {
+            if(!visited[n])
+            {
+                if(dfs(n,visited,visPath,adj))
+                    return true;
+            }
+            else if(visPath[n])
+                return true;
+        }
+        
+        visPath[i]=false;
+        return false;
+        
+    }
+    // Function to detect cycle in a directed graph.
+    public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
+        // code here
+        
+        boolean[] visited = new boolean[V];
+        boolean[] visPath = new boolean[V];
+        
+        for(int i=0;i<V;i++)
+        {
+            if(!visited[i])
+                if(dfs(i,visited,visPath,adj)) return true;
+        }
+        return false;
+    }
+}
